@@ -1,0 +1,19 @@
+{
+  "name": "stellar-cli",
+  "version": "0.1.0",
+  "description": "A CLI tool for initializing stellar projects.",
+  "main": "index.js",
+  "bin": {
+    "ste": "./bin/stellar.js",
+    "stellar": "./bin/stellar.js"
+  },
+  "scripts": {
+    "dev": "npm link"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "inquirer": "^12.0.0"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "gitpaths": [
+    {
+      "value": "uniapp-vue2",
+      "desc": "vue2",
+      "gitpath": "http://172.16.108.253:8001/Stellar/uniapp-vue2.git",
+      "framework": "uni-app"
+    },
+    {
+      "value": "uniapp-vue3",
+      "desc": "vue3",
+      "gitpath": "http://172.16.108.253:8001/Stellar/uniapp-vue3.git",
+      "framework": "uni-app"
+    },
+
+    {
+      "value": "vue2",
+      "desc": "vue 2.x",
+      "gitpath": "http://172.16.108.253:8001/Stellar/vue2.git",
+      "framework": "vue"
+    },
+    {
+      "value": "vue3",
+      "desc": "vue 3.x",
+      "gitpath": "http://172.16.108.253:8001/Stellar/vue3.git",
+      "framework": "vue"
+    }
+  ]
+}
