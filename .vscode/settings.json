@@ -1,0 +1,5 @@
+{
+  "editor.minimap.maxColumn": 240,
+  "editor.wordWrapColumn": 160,
+  "diffEditor.wordWrap": "off"
+}

@@ -1,8 +1,9 @@
 const inquirer = require("inquirer").default;
 const fs = require("fs");
-const { exec, execName, convertPath } = require("../../utils");
-module.exports = async (dirName) => {
-  let name = dirName || "";
+const { exec, execName, getProjectPath } = require("../../utils");
+
+module.exports = async (projectName) => {
+  let name = projectName || "";
   // 判断项目名称是否为空
   while (!name) {
     // 提示用户输入项目名称
@@ -13,7 +14,7 @@ module.exports = async (dirName) => {
     ).name;
   }
 
-  let workPath = convertPath(`${process.cwd()}/${name}`);
+  let workPath = getProjectPath(projectName);
   if (fs.existsSync(workPath)) {
     const answer = await inquirer.prompt([
       {

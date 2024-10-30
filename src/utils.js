@@ -1,12 +1,15 @@
-const { exec } = require("child_process");
+const sys = require("child_process");
+const fs = require("fs");
 const process = require("process");
 
 /**
  * 执行指令
  * @param {string} cmd
+ * @param {string} dir
+ * @param {boolean} print
  * @returns
  */
-exports.exec = function (cmd, dir, print = true) {
+function exec(cmd, dir, print = true) {
   return new Promise((resolve, reject) => {
     const callback = (error, stdout, stderr) => {
       console.log(stdout);
@@ -24,8 +27,8 @@ exports.exec = function (cmd, dir, print = true) {
 
     let rsyncProcess = null;
 
-    if (dir) rsyncProcess = exec(cmd, { cwd: dir }, callback);
-    else rsyncProcess = exec(cmd, callback);
+    if (dir) rsyncProcess = sys.exec(cmd, { cwd: dir }, callback);
+    else rsyncProcess = sys.exec(cmd, callback);
     if (!print) return; // 不打印
 
     const printMessage = (event, data, ...arg) => {
@@ -36,13 +39,13 @@ exports.exec = function (cmd, dir, print = true) {
     rsyncProcess.stderr.on("data", (...arg) => printMessage("stderr:", ...arg));
     rsyncProcess.on("close", (...arg) => printMessage("close:", ...arg));
   });
-};
+}
 
 /**
  * 获取指令
- * @param {'rmdir'|'rmfile'|'mkdir'|'cp'|'mv' |'dir'} name
+ * @param {'rmdir'|'rmfile'|'mkdir'|'cp'|'mv' |'dir' | 'rename'} name
  */
-exports.execName = function (name) {
+function execName(name) {
   const isWindows = process.platform === "win32";
   switch (name) {
     case "rmdir":
@@ -57,14 +60,45 @@ exports.execName = function (name) {
       return isWindows ? "move" : "mv";
     case "dir":
       return isWindows ? "dir" : "ls";
+    case "rename":
+      return isWindows ? "ren" : "mv";
   }
   return "";
-};
+}
 
 /**
  * 转换路径
  */
-exports.convertPath = function (path) {
+function convertPath(path) {
   const isWindows = process.platform === "win32";
   return isWindows ? path.replace(/\//g, "\\") : path;
-};
+}
+
+/**
+ * 获取当前项目绝对路径
+ */
+function getProjectPath(projectName) {
+  return convertPath(`${process.cwd()}/${projectName}`);
+}
+
+/**
+ * 将内容写入文件
+ * @param {string} filePath 
+ * @param {string} content 
+ * @returns 
+ */
+function writeFile(filePath, content) {
+  return new Promise((resolve, reject) => {
+    console.log(`写入文件: ${filePath}`)
+    fs.writeFile(filePath, content, (err) => {
+      if (err) reject(err);
+      resolve();
+    });
+  })
+}
+
+exports.exec = exec;
+exports.convertPath = convertPath;
+exports.getProjectPath = getProjectPath;
+exports.execName = execName;
+exports.writeFile = writeFile;

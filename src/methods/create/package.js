@@ -1,14 +1,14 @@
 const fs = require("fs");
-const { exec, convertPath } = require("../../utils");
+const { exec, convertPath, getProjectPath } = require("../../utils");
 
 module.exports = async (projectName) => {
-  const workPath = convertPath(`${process.cwd()}/${projectName}`);
+  const workPath = getProjectPath(projectName);
   // 判断目录中是否存在package.json文件
   const packageJsonPath = convertPath(`${workPath}/package.json`);
   const isPackageJsonExist = fs.existsSync(packageJsonPath);
   if (!isPackageJsonExist) {
     // 如果不存在，则创建package.json文件
-    console.log(`初始化package.json`)
+    console.log(`初始化package.json`);
     await exec(`npm init -y`, workPath, false);
   } else {
     // 读取package.json文件内容
