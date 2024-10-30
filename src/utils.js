@@ -89,7 +89,6 @@ function getProjectPath(projectName) {
  */
 function writeFile(filePath, content) {
   return new Promise((resolve, reject) => {
-    console.log(`写入文件: ${filePath}`)
     fs.writeFile(filePath, content, (err) => {
       if (err) reject(err);
       resolve();
