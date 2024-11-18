@@ -2,7 +2,7 @@ const inquirer = require("inquirer").default;
 const fs = require("fs");
 const { exec, execName, getProjectPath } = require("../../utils");
 
-async function mkdir(projectName) {
+async function getProjectName(projectName) {
   let name = projectName || "";
   // 判断项目名称是否为空
   while (!name) {
@@ -15,6 +15,8 @@ async function mkdir(projectName) {
   }
 
   let workPath = getProjectPath(name);
+  // 是否删除同名项目
+  let delProject = false;
   if (fs.existsSync(workPath)) {
     const answer = await inquirer.prompt([
       {
@@ -29,7 +31,7 @@ async function mkdir(projectName) {
       return;
     }
     if (answer.method === "重命名") {
-      return await mkdir();
+      return (await getProjectName());
     }
     if (answer.method === "覆盖") {
       // 删除已存在的项目
@@ -38,18 +40,29 @@ async function mkdir(projectName) {
         {
           type: "confirm",
           name: "confirm",
-          message: "确定要覆盖已存在的项目吗?",
+          message: "该操作会删除原有项目，二次确认",
         }
       ])
       if (answer.confirm) {
-        await exec(`${execName("rmdir")} ${workPath}`);
+        console.log("正在删除原有项目 ...");
+        delProject = true
       } else {
         console.log("已取消覆盖项目");
         return
       }
     }
   }
-  fs.mkdirSync(workPath);
-  return name;
+  if (!name) return;
+  return { projectName: name, delProject };
 };
-module.exports = mkdir
+
+async function mkdir(projectName, delProject) {
+  let workPath = getProjectPath(projectName);
+  if (delProject) {
+    await exec(`${execName("rmdir")} ${workPath}`);
+  }
+  fs.mkdirSync(workPath);
+}
+
+exports.getProjectName = getProjectName
+exports.mkdir = mkdir

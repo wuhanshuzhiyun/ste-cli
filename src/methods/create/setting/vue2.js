@@ -1,12 +1,11 @@
 const { default: inquirer } = require("inquirer");
-const config = require("../../../../config.json");
 const path = require("path");
 const { vue2Map } = require("../../../../static");
 const { getProjectPath, exec, execName, convertPath, writeFile, } = require("../../../utils");
 
 async function insertTs(workPath) {
   // 安装npm包
-  await exec(`npm install vue-class-component -S`, workPath);
+  await exec(`npm install vue-class-component@7.2.6 -S`, workPath);
   await exec(`npm install typescript @vue/cli-plugin-typescript -D`, workPath);
   // 删除main.js
   await exec(`${execName("rmfile")} ${convertPath(workPath + "/src/main.js")}`);
@@ -46,10 +45,10 @@ async function insertElementUi(workPath) {
 }
 
 
-function setVue2(projectName) {
+function setVue2() {
   return new Promise(async (resolve, reject) => {
     try {
-      const workPath = getProjectPath(projectName);
+
       // 让用户选择插件，多选[ts, eslint, sass]
       const answers = await inquirer.prompt({
         type: "checkbox",
@@ -60,34 +59,40 @@ function setVue2(projectName) {
 
       // 根据用户选择的插件，安装对应的依赖
       const { plugins } = answers;
-      if (plugins.includes("typescript")) {
-        console.log("安装 typescript ...");
-        await insertTs(workPath);
-        console.log("安装 typescript 完成\n\n\n");
-      }
-      if (plugins.includes("sass")) {
-        // 安装 sass
-        console.log("安装 sass ...");
-        await insertSass(workPath);
-        console.log("安装 sass 完成\n\n\n");
-      }
-      if (plugins.includes("axios")) {
-        // 安装 axios
-        console.log("安装 axios ...");
-        await insertAxios(workPath);
-        console.log("安装 axios 完成\n\n\n");
-      }
-      if (plugins.includes("element-ui")) {
-        // 安装 element-ui
-        console.log("安装 element-ui ...");
-        await insertElementUi(workPath);
-        console.log("安装 element-ui 完成\n\n\n");
-      }
-      resolve();
+
+      resolve(plugins);
     } catch (error) {
       reject(error);
     }
   });
 };
 
-module.exports = setVue2;
+async function insetConfig(projectName, plugins) {
+  const workPath = getProjectPath(projectName);
+  if (plugins.includes("typescript")) {
+    console.log("安装 typescript ...");
+    await insertTs(workPath);
+    console.log("安装 typescript 完成\n\n\n");
+  }
+  if (plugins.includes("sass")) {
+    // 安装 sass
+    console.log("安装 sass ...");
+    await insertSass(workPath);
+    console.log("安装 sass 完成\n\n\n");
+  }
+  if (plugins.includes("axios")) {
+    // 安装 axios
+    console.log("安装 axios ...");
+    await insertAxios(workPath);
+    console.log("安装 axios 完成\n\n\n");
+  }
+  if (plugins.includes("element-ui")) {
+    // 安装 element-ui
+    console.log("安装 element-ui ...");
+    await insertElementUi(workPath);
+    console.log("安装 element-ui 完成\n\n\n");
+  }
+}
+
+exports.setVue2 = setVue2;
+exports.insetConfigVue2 = insetConfig;

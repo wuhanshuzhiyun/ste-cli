@@ -28,5 +28,14 @@ loadFiles(path.join(__dirname, "./vue2")).then(filesList => {
   })
 })
 
-
 exports.vue2Map = vue2Map
+
+const vue3Map = {}
+loadFiles(path.join(__dirname, "./vue3")).then(filesList => {
+  filesList.forEach(item => {
+    vue3Map[item.fileName] = item.content
+  })
+})
+
+exports.vue3Map = vue3Map
+

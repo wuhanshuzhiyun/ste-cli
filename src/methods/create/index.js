@@ -1,23 +1,42 @@
 const fs = require("fs");
 const { exec, execName, convertPath } = require("../../utils");
-const mkdir = require("./mkdir");
+const { mkdir, getProjectName } = require("./mkdir");
 const { getType, getGitpath } = require("./type.js");
 const packagejs = require("./package.js");
 const initGit = require("./init-git.js");
-const setVue2 = require("./setting/vue2.js");
-const setVue3 = require("./setting/vue3.js");
+const { setVue2, insetConfigVue2 } = require("./setting/vue2.js");
+const { setVue3, insetConfigVue3 } = require("./setting/vue3.js");
 
 module.exports = async function (name, params) {
   console.log(`正在创建项目: ${name}`);
-  const projectName = await mkdir(name);
-  if (!projectName) return;
+  const projectNameConfig = await getProjectName(name);
+  if (!projectNameConfig) return;
+  const { projectName, delProject } = projectNameConfig;
   let type = Object.keys(params)[0];
   if (!type) type = await getType();
+  let plugins = [];
+  let insetConfig = (projectName, plugins) => { }
+  switch (type) {
+    case "vue2":
+      plugins = await setVue2();
+      insetConfig = insetConfigVue2
+      break;
+    case "vue3":
+      plugins = await setVue3();
+      insetConfig = insetConfigVue3
+      break;
 
-  console.log(`正在下载模板: ${type}...`);
+    default:
+      break;
+  }
+  // 初始化git
+
+
+  console.log(`正在创建项目: ${type}...`);
+  await mkdir(projectName, delProject);
   // 克隆项目
-  const gitpath = getGitpath(type);
-  await exec(`git clone ${gitpath} ${projectName}`);
+  await exec(`git clone ${getGitpath(type)} ${projectName}`);
+  await insetConfig(projectName, plugins);
 
   // 删除默认的.git 文件夹
   const gitdir = convertPath(`${process.cwd()}/${projectName}/.git`);
@@ -26,20 +45,12 @@ module.exports = async function (name, params) {
   }
   // 初始化package.json
   await packagejs(projectName);
-  // 初始化git
+  // 初始化git仓库
   await initGit(projectName);
 
-  switch (type) {
-    case "vue2":
-      await setVue2(projectName);
-      break;
-    case "vue3":
-      await setVue3(projectName);
-      break;
 
-    default:
-      break;
-  }
+
+
 
   console.log(`创建项目成功: ${projectName}`);
 };
