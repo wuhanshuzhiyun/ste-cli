@@ -30,16 +30,23 @@ async function insertTs(workPath) {
   await writeFile(path.join(workPath, "/src/shims-tsx.d.ts"), vue2Map["shims-tsx.d.ts"])
 }
 
-async function insertEslint(workPath) {
+async function insertSass(workPath) {
   // 安装npm包
-  await exec(`npm install eslint eslint-plugin-vue -D`, workPath);
-  // 写入.eslintrc.js
-  await writeFile(path.join(workPath, "/.eslintrc.js"), vue2Map[".eslintrc.js"])
+  await exec(`npm install sass-loader sass -D`, workPath);
+}
+
+async function insertAxios(workPath) {
+  // 安装npm包
+  await exec(`npm install axios -S`, workPath);
+}
+
+async function insertElementUi(workPath) {
+  // 安装npm包
+  await exec(`npm install element-ui -S`, workPath);
 }
 
 
-
-module.exports = function setVue2(projectName) {
+function setVue2(projectName) {
   return new Promise(async (resolve, reject) => {
     try {
       const workPath = getProjectPath(projectName);
@@ -48,29 +55,33 @@ module.exports = function setVue2(projectName) {
         type: "checkbox",
         name: "plugins",
         message: "请选择需要安装的插件",
-        choices: ["typescript", "eslint", "sass", "axios", "element-ui"],
+        choices: ["typescript", "sass", "axios", "element-ui"],
       });
 
       // 根据用户选择的插件，安装对应的依赖
       const { plugins } = answers;
       if (plugins.includes("typescript")) {
-        console.log("安装 typescript");
+        console.log("安装 typescript ...");
         await insertTs(workPath);
-      }
-      if (plugins.includes("eslint")) {
-        console.log("安装 eslint");
+        console.log("安装 typescript 完成\n\n\n");
       }
       if (plugins.includes("sass")) {
         // 安装 sass
-        console.log("安装 sass");
+        console.log("安装 sass ...");
+        await insertSass(workPath);
+        console.log("安装 sass 完成\n\n\n");
       }
       if (plugins.includes("axios")) {
         // 安装 axios
-        console.log("安装 axios");
+        console.log("安装 axios ...");
+        await insertAxios(workPath);
+        console.log("安装 axios 完成\n\n\n");
       }
       if (plugins.includes("element-ui")) {
         // 安装 element-ui
-        console.log("安装 element-ui");
+        console.log("安装 element-ui ...");
+        await insertElementUi(workPath);
+        console.log("安装 element-ui 完成\n\n\n");
       }
       resolve();
     } catch (error) {
@@ -78,3 +89,5 @@ module.exports = function setVue2(projectName) {
     }
   });
 };
+
+module.exports = setVue2;
