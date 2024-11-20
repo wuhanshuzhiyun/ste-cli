@@ -6,6 +6,7 @@ const packagejs = require("./package.js");
 const initGit = require("./init-git.js");
 const { getPluginsVue2, insetPluginsVue2 } = require("./setting/vue2.js");
 const { getPluginsVue3, insetPluginsVue3 } = require("./setting/vue3.js");
+const { getPluginsUni2, insetPluginsUni2 } = require("./setting/uni-v2.js");
 
 module.exports = async function (name, params) {
   console.log(`正在创建项目: ${name}`);
@@ -24,6 +25,10 @@ module.exports = async function (name, params) {
     case "vue3":
       plugins = await getPluginsVue3();
       insetPlugins = insetPluginsVue3
+      break;
+    case "uniapp-vue2":
+      plugins = await getPluginsUni2();
+      insetPlugins = insetPluginsUni2
       break;
   }
 
