@@ -43,9 +43,15 @@ async function insertElementUi(workPath) {
   await exec(`npm install element-plus -S --registry=${registry}`, workPath);
 }
 
+const choices = [
+  { name: 'typescript', value: 'typescript', checked: true },
+  { name: 'sass', value: 'sass', checked: true },
+  { name: 'axios', value: 'axios', checked: true },
+  { name: 'element-plus', value: 'element-plus', checked: true },
+]
 
 
-function getPluginsVue3() {
+function setVue3() {
   return new Promise(async (resolve, reject) => {
     try {
       // 让用户选择插件
@@ -53,7 +59,7 @@ function getPluginsVue3() {
         type: "checkbox",
         name: "plugins",
         message: "请选择需要安装的插件",
-        choices: ["typescript", "sass", "axios", "element-plus"],
+        choices,
       });
 
       // 根据用户选择的插件，安装对应的依赖
@@ -65,7 +71,7 @@ function getPluginsVue3() {
   });
 }
 
-async function insetConfig(projectName, plugins) {
+async function insetPlugins(projectName, plugins) {
   const workPath = getProjectPath(projectName);
   if (plugins.includes("typescript")) {
     console.log("安装 typescript ...");
@@ -92,6 +98,6 @@ async function insetConfig(projectName, plugins) {
   }
 }
 
-exports.getPluginsVue3 = getPluginsVue3;
+exports.setVue3 = setVue3;
 
-exports.insetConfigVue3 = insetConfig;
+exports.insetPluginsVue3 = insetPlugins;
