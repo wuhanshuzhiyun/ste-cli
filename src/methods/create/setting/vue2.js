@@ -46,7 +46,7 @@ async function insertElementUi(workPath) {
 }
 
 
-function setVue2() {
+function getPluginsVue2() {
   return new Promise(async (resolve, reject) => {
     try {
 
@@ -95,5 +95,5 @@ async function insetConfig(projectName, plugins) {
   }
 }
 
-exports.setVue2 = setVue2;
+exports.getPluginsVue2 = getPluginsVue2;
 exports.insetConfigVue2 = insetConfig;

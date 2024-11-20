@@ -1,5 +1,6 @@
 {
   "registry": "https://registry.npmmirror.com",
+  "ste-registry": "http://172.16.109.59:8010/repository/npm-group",
   "gitpaths": [
     {
       "value": "uniapp-vue2",
@@ -11,6 +12,12 @@
       "value": "uniapp-vue3",
       "desc": "vue3",
       "gitpath": "http://172.16.108.253:8001/Stellar/uniapp-vue3.git",
+      "framework": "uni-app"
+    },
+    {
+      "value": "uniapp-vue3-vscode",
+      "desc": "vue3-vscode",
+      "gitpath": "http://172.16.108.253:8001/Stellar/uniapp-vue3-vscode.git",
       "framework": "uni-app"
     },
 

@@ -4,8 +4,8 @@ const { mkdir, getProjectName } = require("./mkdir");
 const { getType, getGitpath } = require("./type.js");
 const packagejs = require("./package.js");
 const initGit = require("./init-git.js");
-const { setVue2, insetConfigVue2 } = require("./setting/vue2.js");
-const { setVue3, insetConfigVue3 } = require("./setting/vue3.js");
+const { getPluginsVue2, insetConfigVue2 } = require("./setting/vue2.js");
+const { getPluginsVue3, insetConfigVue3 } = require("./setting/vue3.js");
 
 module.exports = async function (name, params) {
   console.log(`正在创建项目: ${name}`);
@@ -18,11 +18,11 @@ module.exports = async function (name, params) {
   let insetConfig = (projectName, plugins) => { }
   switch (type) {
     case "vue2":
-      plugins = await setVue2();
+      plugins = await getPluginsVue2();
       insetConfig = insetConfigVue2
       break;
     case "vue3":
-      plugins = await setVue3();
+      plugins = await getPluginsVue3();
       insetConfig = insetConfigVue3
       break;
 
