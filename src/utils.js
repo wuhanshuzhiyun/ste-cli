@@ -9,7 +9,7 @@ const process = require("process");
  * @param {boolean} print
  * @returns
  */
-function exec(cmd, dir, print = true) {
+function exec(cmd, dir, print = false) {
   return new Promise((resolve, reject) => {
     const callback = (error, stdout, stderr) => {
       console.log(stdout);

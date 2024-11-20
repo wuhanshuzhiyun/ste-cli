@@ -10,11 +10,11 @@ module.exports = function initGit(projectName) {
         name: "initGit",
         message: "是否初始化git仓库？",
       })
-      .then((answers) => {
+      .then(async (answers) => {
         if (answers.initGit) {
-          console.log("初始化git仓库");
+          console.log("初始化git仓库 ...");
           // 初始化git仓库
-          exec("git init", workPath);
+          await exec("git init", workPath);
           resolve();
         } else {
           resolve();

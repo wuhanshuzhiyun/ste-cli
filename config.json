@@ -1,5 +1,5 @@
 {
-  "registry": "https://registry.npm.taobao.org",
+  "registry": "https://registry.npmmirror.com",
   "gitpaths": [
     {
       "value": "uniapp-vue2",

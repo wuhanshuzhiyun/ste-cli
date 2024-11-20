@@ -2,11 +2,12 @@ const { default: inquirer } = require("inquirer");
 const path = require("path");
 const { vue2Map } = require("../../../../static");
 const { getProjectPath, exec, execName, convertPath, writeFile, } = require("../../../utils");
+const registry = require("../../../../config.json").registry;
 
 async function insertTs(workPath) {
   // 安装npm包
-  await exec(`npm install vue-class-component@7.2.6 -S`, workPath);
-  await exec(`npm install typescript @vue/cli-plugin-typescript -D`, workPath);
+  await exec(`npm install vue-class-component@7.2.6 -S --registry=${registry}`, workPath);
+  await exec(`npm install typescript @vue/cli-plugin-typescript -D --registry=${registry}`, workPath);
   // 删除main.js
   await exec(`${execName("rmfile")} ${convertPath(workPath + "/src/main.js")}`);
   // 写入main.ts
@@ -31,17 +32,17 @@ async function insertTs(workPath) {
 
 async function insertSass(workPath) {
   // 安装npm包
-  await exec(`npm install sass-loader sass -D`, workPath);
+  await exec(`npm install sass-loader sass -D --registry=${registry}`, workPath);
 }
 
 async function insertAxios(workPath) {
   // 安装npm包
-  await exec(`npm install axios -S`, workPath);
+  await exec(`npm install axios -S --registry=${registry}`, workPath);
 }
 
 async function insertElementUi(workPath) {
   // 安装npm包
-  await exec(`npm install element-ui -S`, workPath);
+  await exec(`npm install element-ui -S --registry=${registry}`, workPath);
 }
 
 
