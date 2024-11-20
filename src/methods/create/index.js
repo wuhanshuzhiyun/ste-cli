@@ -15,7 +15,7 @@ module.exports = async function (name, params) {
   let type = Object.keys(params)[0];
   if (!type) type = await getType();
   let plugins = [];
-  let insetPlugins = (projectName, plugins) => { }
+  let insetPlugins = async (projectName, plugins) => { }
   switch (type) {
     case "vue2":
       plugins = await getPluginsVue2();
@@ -25,14 +25,9 @@ module.exports = async function (name, params) {
       plugins = await getPluginsVue3();
       insetPlugins = insetPluginsVue3
       break;
-
-    default:
-      break;
   }
-  // 初始化git
 
-
-  console.log(`正在创建项目: ${type}...`);
+  console.log(`正在创建${type}项目: ${projectName} ...`);
   await mkdir(projectName, delProject);
   // 克隆项目
   await exec(`git clone ${getGitpath(type)} ${projectName}`);

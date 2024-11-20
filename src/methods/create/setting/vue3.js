@@ -51,7 +51,7 @@ const choices = [
 ]
 
 
-function setVue3() {
+function getPluginsVue3() {
   return new Promise(async (resolve, reject) => {
     try {
       // 让用户选择插件
@@ -98,6 +98,6 @@ async function insetPlugins(projectName, plugins) {
   }
 }
 
-exports.setVue3 = setVue3;
+exports.getPluginsVue3 = getPluginsVue3;
 
 exports.insetPluginsVue3 = insetPlugins;
