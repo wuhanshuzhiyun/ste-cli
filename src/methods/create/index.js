@@ -11,10 +11,10 @@ const { getPluginsUni3, insetPluginsUni3 } = require("./setting/uni-v3.js");
 const { getPluginsUni3Vscode, insetPluginsUni3Vscode } = require("./setting/uni-v3-vs.js");
 
 module.exports = async function (name, params) {
-  console.log(`正在创建项目: ${name}`);
   const projectNameConfig = await getProjectName(name);
   if (!projectNameConfig) return;
   const { projectName, delProject } = projectNameConfig;
+  console.log(`正在创建项目: ${projectName}`);
   let type = Object.keys(params)[0];
   if (!type) type = await getType();
   let plugins = [];
@@ -58,10 +58,5 @@ module.exports = async function (name, params) {
   await packagejs(projectName);
   // 初始化git仓库
   await initGit(projectName);
-
-
-
-
-
   console.log(`创建项目成功: ${projectName}`);
 };

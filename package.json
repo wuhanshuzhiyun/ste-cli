@@ -1,6 +1,6 @@
 {
   "name": "ste-cli",
-  "version": "1.0.01",
+  "version": "1.0.1",
   "description": "A CLI tool for initializing stellar projects.",
   "main": "./bin/stellar.js",
   "bin": {
