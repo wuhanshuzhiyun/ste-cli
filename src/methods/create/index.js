@@ -7,6 +7,8 @@ const initGit = require("./init-git.js");
 const { getPluginsVue2, insetPluginsVue2 } = require("./setting/vue2.js");
 const { getPluginsVue3, insetPluginsVue3 } = require("./setting/vue3.js");
 const { getPluginsUni2, insetPluginsUni2 } = require("./setting/uni-v2.js");
+const { getPluginsUni3, insetPluginsUni3 } = require("./setting/uni-v3.js");
+const { getPluginsUni3Vscode, insetPluginsUni3Vscode } = require("./setting/uni-v3-vs.js");
 
 module.exports = async function (name, params) {
   console.log(`正在创建项目: ${name}`);
@@ -30,6 +32,15 @@ module.exports = async function (name, params) {
       plugins = await getPluginsUni2();
       insetPlugins = insetPluginsUni2
       break;
+    case "uniapp-vue3":
+      plugins = await getPluginsUni3();
+      insetPlugins = insetPluginsUni3
+      break;
+    case "uniapp-vue3-vscode":
+      plugins = await getPluginsUni3Vscode();
+      insetPlugins = insetPluginsUni3Vscode
+      break;
+
   }
 
   console.log(`正在创建${type}项目: ${projectName} ...`);

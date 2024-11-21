@@ -57,6 +57,6 @@ async function insetPlugins(projectName, plugins) {
   }
 }
 
-exports.getPluginsUni3 = getPluginsUni3;
+exports.getPluginsUni3Vscode = getPluginsUni3;
 
-exports.insetPluginsUni3 = insetPlugins;
+exports.insetPluginsUni3Vscode = insetPlugins;
