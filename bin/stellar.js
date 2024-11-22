@@ -22,9 +22,15 @@ program
     try {
       await create(...args)
     } catch (error) {
-      console.log("终止创建项目！")
+      const e = toString(error)
+      if (e.indexOf("User") != -1) {
+        console.log("终止创建")
+      } else {
+        console.log(e)
+      }
     }
   })
+
 
 // 查看版本
 program.version(version, "-v, --version", "查看当前版本")
@@ -35,9 +41,3 @@ try {
 
 }
 
-
-// Try the following:
-//    node options-negatable.js
-//    node options-negatable.js --sauce
-//    node options-negatable.js --cheese=blue
-//    node options-negatable.js --no-sauce --no-cheese
