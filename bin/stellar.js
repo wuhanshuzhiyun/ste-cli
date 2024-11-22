@@ -7,8 +7,7 @@ const create = require("../src/methods/create");
 
 const program = new commander.Command();
 
-// 查看版本
-program.version(version, "-v, --version", "查看当前版本")
+
 
 
 
@@ -27,6 +26,8 @@ program
     }
   })
 
+// 查看版本
+program.version(version, "-v, --version", "查看当前版本")
 
 try {
   program.parse(process.argv);

@@ -1,7 +1,5 @@
 const { default: inquirer } = require("inquirer");
-const path = require("path");
-const { vue3Map } = require("../../../../static");
-const { getProjectPath, exec, execName, convertPath, writeFile, } = require("../../../utils");
+const { getProjectPath, exec } = require("../../../utils");
 const registry = require("../../../../config.json").registry;
 const steRegistry = require("../../../../config.json")["ste-registry"];
 
