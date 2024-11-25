@@ -28,15 +28,15 @@ module.exports = async function (name, params) {
       plugins = await getPluginsVue3();
       insetPlugins = insetPluginsVue3
       break;
-    case "uniapp-vue2":
+    case "uniapp2":
       plugins = await getPluginsUni2();
       insetPlugins = insetPluginsUni2
       break;
-    case "uniapp-vue3":
+    case "uniapp3":
       plugins = await getPluginsUni3();
       insetPlugins = insetPluginsUni3
       break;
-    case "uniapp-vue3-vscode":
+    case "uniapp3-vscode":
       plugins = await getPluginsUni3Vscode();
       insetPlugins = insetPluginsUni3Vscode
       break;
