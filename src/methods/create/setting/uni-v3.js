@@ -1,3 +1,5 @@
+const fs = require("fs");
+const path = require("path");
 const { default: inquirer } = require("inquirer");
 const { getProjectPath, exec } = require("../../../utils");
 const registry = require("../../../../config.json").registry;
@@ -14,6 +16,31 @@ async function insertAxios(workPath) {
   // 安装npm包
   await exec(`npm install axios -S --registry=${registry}`, workPath);
 }
+
+async function setAppid(workPath) {
+  const appids = await inquirer.prompt([
+    { type: "input", name: "wxappid", message: "微信小程序appid（选填）：" },
+    { type: "input", name: "aliappid", message: "支付宝小程序appid（选填）：" }
+  ])
+  const { wxappid, aliappid } = appids;
+  if (!wxappid && !aliappid) return;
+  // 读取manifest.json
+  const manifestPath = path.resolve(workPath, "manifest.json");
+  const fileData = fs.readFileSync(manifestPath);
+  let manifest = fileData.toString("utf-8");
+  // 删除意外的注释
+  manifest = manifest.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, "");
+  const manifestJson = JSON.parse(manifest);
+  if (!manifestJson["mp-weixin"]) manifestJson["mp-weixin"] = { "appid": "", "usingComponents": true }
+  if (!manifestJson["mp-alipay"]) manifestJson["mp-alipay"] = { "appid": "", "usingComponents": true }
+  if (wxappid) manifestJson["mp-weixin"]["appid"] = wxappid;
+  if (aliappid) manifestJson["mp-alipay"]["appid"] = aliappid;
+  // 写入manifest.json
+  const data = JSON.stringify(manifestJson, null, 2)
+  fs.writeFileSync(manifestPath, data);
+}
+
+
 
 const choices = [
   { name: "stellar-ui-plus", value: "stellar-ui-plus", checked: true },
@@ -53,6 +80,7 @@ async function insetPlugins(projectName, plugins) {
     await insertStellarUi(workPath);
     console.log("安装 stellar-ui-plus 完成\n\n\n");
   }
+  await setAppid(workPath);
 }
 
 exports.getPluginsUni3 = getPluginsUni3;
