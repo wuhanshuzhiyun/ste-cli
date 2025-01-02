@@ -39,3 +39,11 @@ loadFiles(path.join(__dirname, "./vue3")).then(filesList => {
 
 exports.vue3Map = vue3Map
 
+const uni3vsMap = {}
+loadFiles(path.join(__dirname, "./uni3-vs")).then(filesList => {
+  filesList.forEach(item => {
+    uni3vsMap[item.fileName] = item.content
+  })
+})
+
+exports.uni3vsMap = uni3vsMap

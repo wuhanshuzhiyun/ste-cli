@@ -1,5 +1,7 @@
+const path = require("path");
 const { default: inquirer } = require("inquirer");
-const { getProjectPath, exec } = require("../../../utils");
+const { getProjectPath, exec, execName, writeFile } = require("../../../utils");
+const { uni3vsMap } = require("../../../../static");
 const registry = require("../../../../config.json").registry;
 const steRegistry = require("../../../../config.json")["ste-registry"];
 
@@ -7,15 +9,25 @@ const steRegistry = require("../../../../config.json")["ste-registry"];
 
 async function insertStellarUi(workPath) {
   // 安装npm包
-  await exec(`npm install stellar-ui-plus -S --registry=${steRegistry}`, workPath);
+  await exec(`pnpm install stellar-ui-plus -S --registry=${steRegistry}`, workPath);
 }
 
 async function insertAxios(workPath) {
   // 安装npm包
-  await exec(`npm install axios -S --registry=${registry}`, workPath);
+  await exec(`pnpm install axios -S --registry=${registry}`, workPath);
+}
+
+async function insertTypeScript(workPath) {
+  // 将uni3vsMap["shims-vue.d.ts"]写入到workPath/src/router目录下
+  await writeFile(path.join(workPath, "/src/shims-vue.d.ts"), uni3vsMap["shims-vue.d.ts"])
+  // 将src目录下的main.js修改为main.ts
+  await exec(`${execName("rename")} main.js main.ts`, path.join(workPath, "/src"));
+  // 将uni3vsMap["index.html"]写入到workPath目录下
+  await writeFile(path.join(workPath, "/index.html"), uni3vsMap["index.html"])
 }
 
 const choices = [
+  { name: "typescript", value: "typescript" },
   { name: "stellar-ui-plus", value: "stellar-ui-plus", checked: true },
   { name: "axios", value: "axios" },
 ]
@@ -52,6 +64,12 @@ async function insetPlugins(projectName, plugins) {
     console.log("安装 stellar-ui-plus ...");
     await insertStellarUi(workPath);
     console.log("安装 stellar-ui-plus 完成\n\n\n");
+  }
+  if (plugins.includes("typescript")) {
+    // 安装 typescript
+    console.log("安装 typescript ...");
+    await insertTypeScript(workPath);
+    console.log("安装 typescript 完成\n\n\n");
   }
 }
 

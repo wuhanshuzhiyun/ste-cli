@@ -23,7 +23,7 @@ async function getProjectName(projectName) {
         type: "list",
         name: "method",
         message: "已存在同名项目",
-        choices: ["取消", "重命名", "覆盖"],
+        choices: ["取消", "重命名", "覆盖(该操作会删除原有项目)"],
       },
     ]);
     if (answer.method === "取消") {
@@ -33,7 +33,7 @@ async function getProjectName(projectName) {
     if (answer.method === "重命名") {
       return (await getProjectName());
     }
-    if (answer.method === "覆盖") {
+    if (answer.method === "覆盖(该操作会删除原有项目)") {
       // 删除已存在的项目
       // 二次确认
       const answer = await inquirer.prompt([
@@ -44,7 +44,7 @@ async function getProjectName(projectName) {
         }
       ])
       if (answer.confirm) {
-        console.log("正在删除原有项目 ...");
+        console.log("覆盖原有项目");
         delProject = true
       } else {
         console.log("已取消覆盖项目");

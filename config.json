@@ -16,7 +16,7 @@
     },
     {
       "value": "uniapp3-vscode",
-      "desc": "vue3.x-vscode",
+      "desc": "vue3.x-vscode(若未安装pnpm,执行npm install pnpm -g安装)",
       "gitpath": "http://172.16.108.253:8001/Stellar/uniapp-vue3-vscode.git",
       "framework": "uni-app"
     },

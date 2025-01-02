@@ -18,7 +18,7 @@ exports.getType = async function () {
     {
       type: "list",
       name: "versions",
-      message: "请选择项目版本",
+      message: `请选择【${answer.framework}】项目版本`,
       choices: _types.map((item) => item.desc),
     },
   ]);

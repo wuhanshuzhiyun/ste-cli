@@ -14,7 +14,7 @@ module.exports = async function (name, params) {
   const projectNameConfig = await getProjectName(name);
   if (!projectNameConfig) return;
   const { projectName, delProject } = projectNameConfig;
-  console.log(`正在创建项目: ${projectName}`);
+  console.log(`创建项目: ${projectName}`);
   let type = Object.keys(params)[0];
   if (!type) type = await getType();
   let plugins = [];
