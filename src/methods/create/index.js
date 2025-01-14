@@ -47,6 +47,9 @@ module.exports = async function (name, params) {
   await mkdir(projectName, delProject);
   // 克隆项目
   await exec(`git clone ${getGitpath(type)} ${projectName}`);
+  // 初始化package.json
+  await packagejs(projectName);
+  // 插件安装
   await insetPlugins(projectName, plugins);
 
   // 删除默认的.git 文件夹
@@ -54,8 +57,7 @@ module.exports = async function (name, params) {
   if (fs.existsSync(gitdir)) {
     await exec(`${execName("rmdir")} ${gitdir}`);
   }
-  // 初始化package.json
-  await packagejs(projectName);
+
   // 初始化git仓库
   await initGit(projectName);
   console.log(`创建项目成功: ${projectName}`);

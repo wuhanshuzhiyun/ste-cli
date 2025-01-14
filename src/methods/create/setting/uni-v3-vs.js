@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 const { default: inquirer } = require("inquirer");
 const { getProjectPath, exec, execName, writeFile } = require("../../../utils");
@@ -10,6 +11,23 @@ const steRegistry = require("../../../../config.json")["ste-registry"];
 async function insertStellarUi(workPath) {
   // 安装npm包
   await exec(`pnpm install stellar-ui-plus -S --registry=${steRegistry}`, workPath);
+  // 在pages.json中添加easycom对象
+  const pagesJsonPath = path.join(workPath, "./src/pages.json");
+  const fileData = fs.readFileSync(pagesJsonPath);
+  let pagesJson = fileData.toString("utf-8");
+  // 删除意外的注释
+  pagesJson = pagesJson.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, "");
+  const pagesJsonObj = JSON.parse(pagesJson);
+  if (!pagesJsonObj["easycom"]) pagesJsonObj["easycom"] = { "autoscan": true, "custom": { "ste-(.*)": "stellar-ui-plus/components/ste-$1/ste-$1.vue" } }
+  // 写入pages.json
+  const data = JSON.stringify(pagesJsonObj, null, 2)
+  fs.writeFileSync(pagesJsonPath, data);
+  // 在APP.vue中引入添加style
+  const appVuePath = path.join(workPath, "./src/App.vue");
+  const fileData2 = fs.readFileSync(appVuePath);
+  let appVue = fileData2.toString("utf-8");
+  appVue = appVue.replace("<style>", `<style lang="scss">\n@import 'stellar-ui-plus/common/css/common.scss';\n`);
+  fs.writeFileSync(appVuePath, appVue);
 }
 
 async function insertAxios(workPath) {

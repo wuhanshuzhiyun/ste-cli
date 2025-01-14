@@ -10,6 +10,23 @@ const steRegistry = require("../../../../config.json")["ste-registry"];
 async function insertStellarUi(workPath) {
   // 安装npm包
   await exec(`npm install stellar-ui -S --registry=${steRegistry}`, workPath);
+  // 修改pages.json,添加easycom对象
+  const pagesJsonPath = path.resolve(workPath, "pages.json");
+  const fileData = fs.readFileSync(pagesJsonPath);
+  let pagesJson = fileData.toString("utf-8");
+  // 删除意外的注释
+  pagesJson = pagesJson.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, "");
+  const pagesJsonObj = JSON.parse(pagesJson);
+  pagesJsonObj["easycom"] = { "autoscan": true, "custom": { "ste-(.*)": "stellar-ui/components/ste-$1/ste-$1.vue" } }
+  // 写入pages.json
+  const data = JSON.stringify(pagesJsonObj, null, 2)
+  fs.writeFileSync(pagesJsonPath, data);
+  // 在APP.vue末尾写入样式
+  const appPath = path.resolve(workPath, "App.vue");
+  const appData = fs.readFileSync(appPath);
+  let appVue = appData.toString("utf-8");
+  appVue = appVue.replace("<style>", `<style lang="scss">\n@import 'stellar-ui/common/css/common.scss';\n`);
+  fs.writeFileSync(appPath, appVue);
 }
 
 async function insertAxios(workPath) {
