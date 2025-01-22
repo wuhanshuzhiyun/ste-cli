@@ -1,22 +1,23 @@
 {
-  "name": "ste-cli",
-  "version": "1.2.1",
-  "description": "A CLI tool for initializing stellar projects.",
-  "main": "./bin/stellar.js",
-  "bin": {
-    "ste": "./bin/stellar.js",
-    "stellar": "./bin/stellar.js"
-  },
-  "scripts": {
-    "dev": "npm link"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "commander": "^12.1.0",
-    "inquirer": "^12.0.0"
-  },
-  "publishConfig": {
-    "registry": "http://172.16.109.59:8010/repository/npm-hosted/"
-  }
+    "name": "ste-cli",
+    "version": "1.2.2",
+    "description": "A CLI tool for initializing stellar projects.",
+    "main": "./bin/stellar.js",
+    "bin": {
+        "ste": "./bin/stellar.js",
+        "stellar": "./bin/stellar.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wuhanshuzhiyun/ste-cli.git"
+    },
+    "scripts": {
+        "dev": "npm link"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "commander": "^12.1.0",
+        "inquirer": "^12.0.0"
+    }
 }
