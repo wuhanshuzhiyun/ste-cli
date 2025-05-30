@@ -33,8 +33,8 @@ module.exports = async function (name, params) {
       insetPlugins = insetPluginsUni2
       break;
     case "uniapp3":
-      plugins = await getPluginsUni3();
-      insetPlugins = insetPluginsUni3
+      // plugins = await getPluginsUni3();
+      // insetPlugins = insetPluginsUni3
       break;
     case "uniapp3-vscode":
       plugins = await getPluginsUni3Vscode();
